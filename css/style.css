@@ -1,0 +1,252 @@
+@font-face {
+  font-family: "icomoon";
+  src: url("../fonts/icomoon.eot?stm60");
+  src: url("../fonts/icomoon.eot?stm60#iefix") format("embedded-opentype"),
+    url("../fonts/icomoon.ttf?stm60") format("truetype"),
+    url("../fonts/icomoon.woff?stm60") format("woff"),
+    url("../fonts/icomoon.svg?stm60#icomoon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"],
+[class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: "icomoon" !important;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-arrow_left:before {
+  content: "\e900";
+}
+.icon-cart:before {
+  content: "\e901";
+}
+.icon-check:before {
+  content: "\e902";
+}
+.icon-close:before {
+  content: "\e903";
+}
+.icon-filter:before {
+  content: "\e904";
+}
+.icon-like_empty:before {
+  content: "\e905";
+}
+.icon-like_filled:before {
+  content: "\e906";
+}
+.icon-search:before {
+  content: "\e907";
+}
+.icon-settings:before {
+  content: "\e908";
+}
+
+html {
+  box-sizing: border-box;
+  overflow-x: hidden;
+  font-family: "Roboto", sans-serif;
+}
+*,
+::before,
+::after {
+  box-sizing: inherit;
+}
+
+.header{
+    margin-bottom: 10px;
+}
+
+img.logo {
+  width: 120px;
+  height: 25.4px;
+}
+
+body {
+  padding: 0 237px;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.icon-cart {
+  width: 40px;
+  padding: 10px;
+  border-radius: 50%;
+  border: gray 1px solid;
+}
+
+.carousel {
+    background-image: url(/img/banners/mac_book_banner.jpg);
+  background-color: rgb(205, 92, 92);
+  min-height: 520px;
+  margin-bottom: 27px;
+  text-align: center;
+}
+
+.big-title{
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    font-size: 72px;
+    color: white;
+}
+
+.carousel a{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, 50%);
+}
+
+.search {
+  height: 60px;
+  display: flex;
+  border: 1px solid #dddada;
+  border-radius: 5px;
+  display: flex;
+  padding: 10px;
+  margin-bottom: 34px;
+}
+
+input[id="search-bar"] {
+  height: 21px;
+  align-self: center;
+  justify-self: center;
+  flex-grow: 1;
+  margin: 20px;
+  border: none;
+}
+
+i.icon-search {
+  margin: auto;
+  padding: 0 13px;
+  width: 20px;
+  height: 20px;
+}
+
+i.icon-filter,
+i.icon-settings {
+  color: #fff;
+  min-height: 25px;
+  min-width: 25px;
+  padding: 8px;
+  margin: auto;
+  border-radius: 50%;
+  border: gray 1px solid;
+  background-color: #0e49b5;
+  flex-shrink: 0;
+}
+
+i.icon-settings {
+  margin-left: 13px;
+  background-color: #102243;
+}
+
+.side-panel {
+  background-color: #edf3ff;
+  min-width: 322px;
+  min-height: 100px;
+  border: 1px solid #dddada;
+  border-radius: 5px;
+  margin-right: 50px;
+}
+
+.side-panel p {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 30px;
+  margin: 0;
+  border-bottom: 1px #dddada solid;
+}
+.side-panel p:last-of-type {
+  border-bottom: none;
+}
+
+.main-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.product-card {
+  width: 300px;
+  min-height: 480px;
+  border: #e0e0e0 1px solid;
+  border-radius: 5px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 30px;
+}
+
+.product-card img {
+  margin: 15px 50px;
+  max-width: 200px;
+  background-color: rgba(201, 189, 183, 0.301);
+}
+.product-title {
+  margin: 0 auto;
+
+}
+
+.stock,
+.price{
+    margin-top: 4px;
+    color: #767272;
+}
+
+.price{
+    margin-bottom: auto;
+}
+
+.cart-button{
+    background-color: #0E49B5;
+    border-radius: 5px;
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+    line-height: 23px;
+    padding: 13px 25px;
+    max-width: 150px;
+    align-self: center;
+}
+.stats{
+    margin-top: 30px;
+    min-height: 86px;
+    background-color: #DAE2EA;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 13px 20px;
+    border-radius: 0px 0px 5px 5px;
+    font-size: 14px;
+}
+.stats span{
+    font-weight: 700;
+}
+.footer{
+    min-height: 100px;
+}
+
