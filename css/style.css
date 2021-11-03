@@ -68,6 +68,7 @@ html {
     margin-bottom: 10px;
 }
 
+
 img.logo {
   width: 120px;
   height: 25.4px;
@@ -90,11 +91,12 @@ body {
 }
 
 .carousel {
-    background-image: url(/img/banners/mac_book_banner.jpg);
-  background-color: rgb(205, 92, 92);
+  background-image: url(/img/banners/mac_book_banner.jpg);
   min-height: 520px;
   margin-bottom: 27px;
   text-align: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .big-title{
@@ -201,6 +203,10 @@ i.icon-settings {
   margin-bottom: 30px;
 }
 
+.product-card:hover{
+    transform: scale(1.1);
+}
+
 .product-card img {
   margin: 15px 50px;
   max-width: 200px;
@@ -217,9 +223,6 @@ i.icon-settings {
     color: #767272;
 }
 
-.price{
-    margin-bottom: auto;
-}
 
 .cart-button{
     background-color: #0E49B5;
@@ -231,6 +234,7 @@ i.icon-settings {
     padding: 13px 25px;
     max-width: 150px;
     align-self: center;
+    margin-top: auto;
 }
 .stats{
     margin-top: 30px;
