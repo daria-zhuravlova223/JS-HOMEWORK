@@ -17,14 +17,33 @@ let bannerArr = [{"url":"img/banners/air_pods_max_banner.jpg",
 "color": "white"},
 {"url":"img/banners/mac_book_banner.jpg",
 "title": "Mac Book Pro 16",
-"color": "white"},
+"color": "white"}, 
 {"url":"img/banners/watch_banner.jpg",
 "title": "Apple Watch 4",
 "color": "white"}];
+let itemNum = 0;
 items.forEach(element => {
     if (namesArr.indexOf(element.name) == -1) {
-        document.getElementsByClassName("card-container")[0].innerHTML += `<div class="product-card"><img src="img/${element.imgUrl}" alt="product image"><h2 class="product-title">${element.name}</h2><p class="stock">${element.orderInfo.inStock} left in stock</p><p class="price">Price: ${element.price}</p><a href="" class="cart-button">Add to cart</a><div class="stats"><i class="icon-like_empty"></i><div class="review-text"><p class="reviews"><span>${element.orderInfo.reviews}%</span> Positive reviews</p><p class="reviews">Above average</p></div><div class="orders"><p class="reviews">0</p><p class="reviews">orders</p></div></div></div>`;  
+        let card = document.createElement('div');
+        card.setAttribute("class", "product-card")
+        card.innerHTML = `<img src="img/${element.imgUrl}" alt="product image">
+        <h2 class="product-title">${element.name}</h2>
+        <p class="stock">${element.orderInfo.inStock} left in stock</p>
+        <p class="price">Price: ${element.price}</p>
+        <a href="" class="cart-button">Add to cart</a>`;
+        let stats = document.createElement('div');
+        stats.setAttribute("class", "stats");
+        stats.innerHTML =`<i class="icon-like_empty"></i>
+        <div class="review-text">
+            <p class="reviews"><span>${element.orderInfo.reviews}%</span> Positive reviews</p>
+            <p class="reviews">Above average</p></div>
+            <div class="orders"><p class="reviews">0</p>
+                <p class="reviews">orders</p>
+            </div>`
+        document.getElementsByClassName("card-container")[0].appendChild(card);
+        document.getElementsByClassName("product-card")[itemNum].appendChild(stats);
     namesArr.push(element.name);
+    itemNum++;
     }
 });
  
@@ -44,7 +63,7 @@ setInterval(() => {
             document.getElementsByClassName("cart-button")[0].style.top = "50%";
         }
                 
-    i++
+    i++;
     if (i>=bannerArr.length) {
         i = 0;
     }
