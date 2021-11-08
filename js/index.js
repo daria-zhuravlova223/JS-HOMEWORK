@@ -32,6 +32,7 @@ let itemNum = 0;
 items.forEach((element) => {
   let card = document.createElement("div");
   card.setAttribute("class", "product-card");
+  card.setAttribute("id", `${element.id}`)
   card.innerHTML = `<img src="img/${element.imgUrl}" alt="product image">
         <h2 class="product-title">${element.name}</h2>
         <p class="stock">${element.orderInfo.inStock} left in stock</p>
@@ -197,3 +198,61 @@ filterButtons.forEach((filterButton) => {
     }
   });
 });
+
+let cards = Array.from(document.getElementsByClassName("product-card"));
+
+cards.forEach(card=>{card.addEventListener("click", evt => {
+    
+    let cardFromArray = items.find(element => element.id == card.id);
+    let modal = document.createElement('div');
+    modal.setAttribute("class", "modal");
+    modal.setAttribute("id", "modal");
+    modal.innerHTML = ` <div class="modal-container">
+    <div class="side-col">
+        <img class="modal-img" src="img/${cardFromArray.imgUrl}" alt="">
+    </div>
+    <div class="mid-col">
+        <h1 class="product-title">${cardFromArray.name}</h1>
+        <div class="stats">
+            <i class="icon-like_empty"></i>
+            <div class="review-text">
+                <p class="reviews"><span>${cardFromArray.orderInfo.reviews}% </span> Positive reviews</p>
+                <p class="reviews">Above average</p></div>
+                <div class="orders"><p class="reviews">0</p>
+                    <p class="reviews">orders</p>
+                </div>
+        </div>
+        <div class="specs">
+            <p>Color: <b>${cardFromArray.color}</b></p>
+            <p>Operating System: <b>${cardFromArray.os}</b></p>
+            <p>Chip: <b>${cardFromArray.chip.name}</b></p>
+            <p>Height: <b>${cardFromArray.size.height} cm</b></p>
+            <p>Width: <b>${cardFromArray.size.width} cm</b></p>
+            <p>Depth: <b>${cardFromArray.size.depth} cm</b></p>
+            <p>Weight: <b>${cardFromArray.size.weight} kg</b></p>
+        </div>
+    </div>
+    <div class="side-col right-col">
+        <h1 class="price">$ ${cardFromArray.price}</h1>
+        <p>Stock: <b>${cardFromArray.orderInfo.inStock}</b> pcs</p>
+        <a href="#" class="cart-button">Add to cart</a>
+    </div>
+    
+</div>`;
+document.getElementsByClassName("wrapper")[0].appendChild(modal);
+// modal.style.visibility = "visible";
+});
+})
+
+
+
+document.addEventListener("click", evt => {
+    if (evt.target.id === "modal") {
+        modal.remove();
+
+    }
+})
+
+
+
+
