@@ -28,7 +28,7 @@ let bannerArr = [
     color: "white",
   },
 ];
-let itemNum = 0;
+// create product cards
 items.forEach((element) => {
   let card = document.createElement("div");
   card.setAttribute("class", "product-card");
@@ -48,15 +48,13 @@ items.forEach((element) => {
                 <p class="reviews">orders</p>
             </div>`;
   document.getElementsByClassName("card-container")[0].appendChild(card);
-  document.getElementsByClassName("product-card")[itemNum].appendChild(stats);
-  itemNum++;
+  document.getElementById(`${element.id}`).appendChild(stats);
 });
-
+// banner
 let i = 0;
-
 setInterval(() => {
   document.getElementsByClassName(
-    "carousel"
+    "banner"
   )[0].style.backgroundImage = `url(${bannerArr[i].url})`;
   document.getElementsByClassName("big-title")[0].innerHTML =
     bannerArr[i].title;
@@ -74,7 +72,6 @@ setInterval(() => {
     document.getElementsByClassName("cart-button")[0].style.left = "50%";
     document.getElementsByClassName("cart-button")[0].style.top = "50%";
   }
-
   i++;
   if (i >= bannerArr.length) {
     i = 0;
@@ -83,10 +80,9 @@ setInterval(() => {
 
 
 let filters = Array.from(document.getElementsByClassName("filter"));
-let filterButtons = Array.from(
-  document.getElementsByClassName("icon-arrow_left")
-);
+let filterButtons = Array.from(document.getElementsByClassName("icon-arrow_left"));
 
+//filter open
 filterButtons.forEach((filterButton) => {
     let filterOpen = false;
     let openFilterPanel = document.createElement('div');
@@ -94,111 +90,28 @@ filterButtons.forEach((filterButton) => {
     let currentPanel = filters[filterButtons.indexOf(filterButton)];
     
     filterButton.addEventListener("click", (event) => {
+      let currentPanelOpen = currentPanel.id + 'Content';
     if (filterOpen === true) {
           currentPanel.style.backgroundColor = "#edf3ff";
-        switch (currentPanel.id) {
-            case "price":
-            priceContent.remove();
-            break;
-            case "color":
-            colorContent.remove();
-            break;
-            case "memory":
-            memoryContent.remove();
-            break;
-            case "os":
-                osContent.remove();
-                break;
-            case "display":
-                displayContent.remove();
-            default:
-            break;
-        }
-        openFilterPanel.remove()
-      filterOpen = !filterOpen;
+          document.getElementById(currentPanelOpen).classList.toggle("hidden");
+          if (currentPanel.id === "display") {
+            document.getElementById("display").style.borderBottom = "none";
+          }
+        filterOpen = !filterOpen;
     } else {
-    currentPanel.insertAdjacentElement('afterend', openFilterPanel);
       currentPanel.style.backgroundColor = "white";
-      switch (currentPanel.id) {
-        case "price":
-          let price = document.createElement("div");
-          price.setAttribute("id", "priceContent");
-          price.innerHTML =
-            `<div class="from">
-                <p>From</p>
-                <input type="text" name="from" id="from">
-            </div>
-            <div class="to">
-                <p>To</p>
-                <input type="text" name="to" id="to">
-            </div>`;
-          openFilterPanel.append(price);
-          break;
-        case "color":
-          let color = document.createElement("div");
-          color.setAttribute("id", "colorContent");
-          color.innerHTML = `<div class = "filter-col">
-                    <div class="filter-row"><input type="checkbox" name="" id=""><p>Red</p></div>
-                    <div class="filter-row"><input type="checkbox" name="" id=""><p>Black</p></div>
-                    <div class="filter-row"><input type="checkbox" name="" id=""><p>Blue</p></div>
-                    <div class="filter-row"><input type="checkbox" name="" id=""><p>Gold</p></div>
-                    </div>
-                    <div class = "filter-col">
-                    <div class="filter-row"><input type="checkbox" name="" id=""><p>Green</p></div>
-                    <div class="filter-row"><input type="checkbox" name="" id=""><p>White</p></div>
-                    <div class="filter-row"><input type="checkbox" name="" id=""><p>Grey</p></div>
-                    <div class="filter-row"><input type="checkbox" name="" id=""><p>Yellow</p></div>
-                    </div>`;
-          openFilterPanel.appendChild(color);
-          break;
-        case "memory":
-            let memory = document.createElement("div");
-          memory.setAttribute("id", "memoryContent");
-          memory.innerHTML = `<div class = "filter-col">
-                    <div class="filter-row"><input type="checkbox" name="" id=""><p>32 Gb</p></div>
-                    <div class="filter-row"><input type="checkbox" name="" id=""><p>64 Gb</p></div>
-                    <div class="filter-row"><input type="checkbox" name="" id=""><p>128 Gb</p></div>
-                    <div class="filter-row"><input type="checkbox" name="" id=""><p>256 Gb</p></div>
-                    </div>
-                    <div class = "filter-col">
-                    <div class="filter-row"><input type="checkbox" name="" id=""><p>512 Gb</p></div>
-                    <div class="filter-row"><input type="checkbox" name="" id=""><p>1 Tb</p></div>
-                    <div class="filter-row"><input type="checkbox" name="" id=""><p>2 Tb</p></div>
-                    <div class="filter-row"><input type="checkbox" name="" id=""><p>4 Tb</p></div>
-                    </div>`;
-            openFilterPanel.appendChild(memory);
-            break;
-        case "os":
-            let os = document.createElement("div");
-          os.setAttribute("id", "osContent");
-          os.innerHTML = `<div class = "filter-col">
-                    <div class="filter-row"><input type="checkbox" name="" id=""><p>IOS</p></div>
-                    <div class="filter-row"><input type="checkbox" name="" id=""><p>Mac OS</p></div>
-                    <div class="filter-row"><input type="checkbox" name="" id=""><p>tvOS</p></div>
-                    <div class="filter-row"><input type="checkbox" name="" id=""><p>Watch OS</p></div>
-                    </div>`;
-            openFilterPanel.appendChild(os);
-            break;
-        case "display":
-            let display = document.createElement("div");
-            display.setAttribute("id", "displayContent");
-            display.innerHTML = `<div class = "filter-col">
-                    <div class="filter-row"><input type="checkbox" name="" id=""><p>2 - 5 inch</p></div>
-                    <div class="filter-row"><input type="checkbox" name="" id=""><p>5 - 7 inch</p></div>
-                    <div class="filter-row"><input type="checkbox" name="" id=""><p>7 - 12 inch</p></div>
-                    <div class="filter-row"><input type="checkbox" name="" id=""><p>12 - 16 inch</p></div>
-                    <div class="filter-row"><input type="checkbox" name="" id=""><p>16 + inch</p></div>
-                    </div>`;
-            openFilterPanel.appendChild(display);
-        break;
-          default:
-          break;
+      if (currentPanel.id === "display") {
+        document.getElementById("display").style.borderBottom = "1px #dddada solid";
       }
+      document.getElementById(currentPanelOpen).classList.toggle("hidden")
       filterOpen = !filterOpen;
+      }
+      
     }
-  });
+  );
 });
 
+//modal
 let cards = Array.from(document.getElementsByClassName("product-card"));
 
 cards.forEach(card=>{card.addEventListener("click", evt => {
@@ -240,19 +153,120 @@ cards.forEach(card=>{card.addEventListener("click", evt => {
     
 </div>`;
 document.getElementsByClassName("wrapper")[0].appendChild(modal);
-// modal.style.visibility = "visible";
 });
 })
-
-
-
+//close modal
 document.addEventListener("click", evt => {
     if (evt.target.id === "modal") {
         modal.remove();
-
     }
 })
 
+//filter arrays
+let colorFilter = [];
+let memoryFilter = [];
+let osFilter = [];
 
+//color filter
+let checkboxArrColor = Array.from(document.getElementsByClassName("color-filter"));
+checkboxArrColor.forEach(checkbox => {
+  checkbox.addEventListener("click", event =>{
+    let formatedColor = checkbox.id[0].toUpperCase() + checkbox.id.slice(1,).toLowerCase();
+    if (checkbox.checked === true){
+      if (formatedColor === "Silver") {
+        colorFilter.push("Space Grey");
+      }
+      colorFilter.push(formatedColor);
+    }else{
+      colorFilter.splice(colorFilter.indexOf(formatedColor),1);
+    }
 
+      if (!colorFilter.length) {
+        return;
+      }else{
+        cards.forEach(card => {
+          let cardFromArray = items.find(element => element.id == card.id);
+          if (colorFilter.find(element => cardFromArray.color.includes(element))) {
+            document.getElementById(card.id).style.display = "";
+          }else{
+            document.getElementById(card.id).style.display = "none";
+          }
+        });
+ 
+      }
+    
+      }
+    
+    )
+  
+  
+      }
+    
+    );
+
+//memory filter
+let checkboxArrMemory = Array.from(document.getElementsByClassName("memory-filter"));
+
+checkboxArrMemory.forEach(checkbox => {
+  checkbox.addEventListener("click", event =>{
+    let storage = checkbox.id;
+    let formatedStorage = storage.substring(0, storage.length-2);
+    console.log(formatedStorage);
+    if (checkbox.checked === true){
+      memoryFilter.push(formatedStorage);
+    }else{
+      colorFilter.splice(memoryFilter.indexOf(formatedStorage),1);
+    }
+      if (!memoryFilter.length) {
+        return;
+      }else{
+        cards.forEach(card => {
+          let cardFromArray = items.find(element => element.id == card.id);
+          if (memoryFilter.find(element => cardFromArray.storage == element)) {
+            document.getElementById(card.id).style.display = "";
+          }else{
+            document.getElementById(card.id).style.display = "none";
+          }
+        });
+        
+  
+      }
+
+});
+});
+
+//os filter
+
+let checkboxArrOS = Array.from(document.getElementsByClassName("os-filter"));
+
+checkboxArrOS.forEach(checkbox => {
+  checkbox.addEventListener("click", event =>{
+    let os = checkbox.id.split("-").join(" ");
+    console.log(os);
+    if (checkbox.checked === true){
+      osFilter.push(os);
+    }else{
+      osFilter.splice(osFilter.indexOf(os),1);
+    }
+      if (!osFilter.length) {
+        return;
+      }else{
+        cards.forEach(card => {
+          let cardFromArray = items.find(element => element.id == card.id);
+          if (osFilter.find(element => cardFromArray.os == element)) {
+            document.getElementById(card.id).style.display = "";
+          }else{
+            document.getElementById(card.id).style.display = "none";
+          }
+        });
+        
+  
+      }
+      if (!osFilter.length) {
+        cards.forEach(card =>{
+          document.getElementById(card.id).style.display = "";
+        })
+      }
+});
+});
 

@@ -90,7 +90,7 @@ body {
   border: gray 1px solid;
 }
 
-.carousel {
+.banner {
   background-image: url(/img/banners/mac_book_banner.jpg);
   min-height: 520px;
   margin-bottom: 27px;
@@ -108,7 +108,7 @@ body {
     color: white;
 }
 
-.carousel a{
+.banner a{
     position: absolute;
     left: 50%;
     top: 50%;
@@ -166,7 +166,7 @@ i.icon-settings {
   margin-right: 50px;
 }
 
-.side-panel .filter {
+.filter {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -174,9 +174,7 @@ i.icon-settings {
   margin: 0;
   border-bottom: 1px #dddada solid;
 }
-.side-panel .filter:last-of-type {
-  border-bottom: none;
-}
+
 
 .main-container {
   display: flex;
@@ -235,6 +233,7 @@ i.icon-settings {
     align-self: center;
     margin-top: auto;
     white-space: nowrap;
+    border: 1px solid #0E49B5;
 }
 
 .cart-button:hover{
@@ -289,16 +288,21 @@ input[type="text"]{
   width: 100%;
 
 }
-#open-filter{
+.d-flex{
   border-bottom: 1px #dddada solid;
 }
+
+#display{
+  border-bottom: none;
+}
+
 
 #open-filter div{
   display: flex;
   
 }
 
-#open-filter div p{
+.d-flex div p{
   white-space: nowrap;  
 }
 
@@ -309,20 +313,20 @@ input[type="text"]{
   padding: 24px 90px 28px 15px;
 }
 
-#priceContent{
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: left;
-  align-items: center;
-  padding-left: 30px;
-}
+
 #priceContent p{
   width: 50px;
 }
+
+.d-flex{
+  display: flex;
+  padding-left: 30px;
+}
+
 #priceContent input[type="text"]{
-  width: 150px;
-  justify-self: flex-end;
+  width: 120px;
   margin-left: 30px;
+  margin-top: 15px;
 }
 
 
@@ -407,10 +411,13 @@ input[type="text"]{
   margin-top: 0;
 }
 
-/* .modal{
-  visibility: hidden;
-} */
+
 
 .icon-arrow_left{
   padding: 0 40px;
 }
+
+.hidden{
+  display: none;
+}
+

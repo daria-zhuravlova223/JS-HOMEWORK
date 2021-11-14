@@ -26,7 +26,7 @@
         </div>
         <main class="main">
             <div class="container">
-                <div class="carousel">
+                <div class="banner">
                     <h1 class="big-title" id="big-title">Mac Book Pro 16</h1>
                     <a href="#" class="cart-button">Add to cart</a>
                 </div>
@@ -39,10 +39,65 @@
                 <div class="main-container">
                     <div class="side-panel">
                         <div class="filter" id="price"><p>Price<i class="icon-arrow_left"></i></p></div>
+                        <div id="priceContent" class="hidden d-flex">
+                            <div class="filter-col">
+                                <p>From</p>
+                                <p>To</p>
+                            </div>
+                            <div class="filter-col">
+                                <input type="text" name="from" id="from">
+                                <input type="text" name="to" id="to">
+                            </div>
+                        </div>
                         <div class="filter" id="color"><p>Color<i class="icon-arrow_left"></i></p></div>
+                        <div id="colorContent" class="hidden d-flex">
+                            <div class = "filter-col">
+                                <div class="filter-row"><input type="checkbox" class="color-filter" id="red"><p>Red</p></div>
+                                <div class="filter-row"><input type="checkbox" class="color-filter" id="black"><p>Black</p></div>
+                                <div class="filter-row"><input type="checkbox" class="color-filter" id="blue"><p>Blue</p></div>
+                                <div class="filter-row"><input type="checkbox" class="color-filter" id="gold"><p>Gold</p></div>
+                                </div>
+                                <div class = "filter-col">
+                                <div class="filter-row"><input type="checkbox" class="color-filter" id="green"><p>Green</p></div>
+                                <div class="filter-row"><input type="checkbox" class="color-filter" id="white"><p>White</p></div>
+                                <div class="filter-row"><input type="checkbox" class="color-filter" id="silver"><p>Grey</p></div>
+                                <div class="filter-row"><input type="checkbox" class="color-filter" id="yellow"><p>Yellow</p></div>
+                                </div>
+                        </div>
                         <div class="filter" id="memory"><p>Memory<i class="icon-arrow_left"></i></p></div>
+                        <div id="memoryContent" class="hidden d-flex">
+                            <div class = "filter-col">
+                                <div class="filter-row"><input type="checkbox" class="memory-filter" id="32gb"><p>32 Gb</p></div>
+                                <div class="filter-row"><input type="checkbox" class="memory-filter" id="64gb"><p>64 Gb</p></div>
+                                <div class="filter-row"><input type="checkbox" class="memory-filter" id="128gb"><p>128 Gb</p></div>
+                                <div class="filter-row"><input type="checkbox" class="memory-filter" id="256gb"><p>256 Gb</p></div>
+                                </div>
+                                <div class = "filter-col">
+                                <div class="filter-row"><input type="checkbox" name="" id="512gb"><p>512 Gb</p></div>
+                                <div class="filter-row"><input type="checkbox" name="" id="1024gb"><p>1 Tb</p></div>
+                                <div class="filter-row"><input type="checkbox" name="" id="2048gb"><p>2 Tb</p></div>
+                                <div class="filter-row"><input type="checkbox" name="" id="4096gb"><p>4 Tb</p></div>
+                                </div>
+                            </div>
                         <div class="filter" id="os"><p>OS<i class="icon-arrow_left"></i></p></div>
+                        <div id="osContent" class="hidden d-flex">
+                            <div class = "filter-col">
+                                <div class="filter-row"><input type="checkbox" class="os-filter" id="IOS"><p>IOS</p></div>
+                                <div class="filter-row"><input type="checkbox" class="os-filter" id="Mac-OS"><p>Mac OS</p></div>
+                                <div class="filter-row"><input type="checkbox" class="os-filter" id="tvOS"><p>tvOS</p></div>
+                                <div class="filter-row"><input type="checkbox" class="os-filter" id="Watch-OS"><p>Watch OS</p></div>
+                                </div>
+                        </div>
                         <div class="filter" id="display"><p>Display<i class="icon-arrow_left"></i></p></div>
+                        <div id="displayContent" class="hidden d-flex">
+                            <div class = "filter-col">
+                                <div class="filter-row"><input type="checkbox" class="display-filter" id=""><p>2 - 5 inch</p></div>
+                                <div class="filter-row"><input type="checkbox" class="display-filter" id=""><p>5 - 7 inch</p></div>
+                                <div class="filter-row"><input type="checkbox" class="display-filter" id=""><p>7 - 12 inch</p></div>
+                                <div class="filter-row"><input type="checkbox" class="display-filter" id=""><p>12 - 16 inch</p></div>
+                                <div class="filter-row"><input type="checkbox" class="display-filter" id=""><p>16 + inch</p></div>
+                                </div>
+                        </div>
                     </div>
                     <div class="card-container">
                        
