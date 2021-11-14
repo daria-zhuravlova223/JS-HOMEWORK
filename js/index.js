@@ -37,18 +37,18 @@ items.forEach((element) => {
         <h2 class="product-title">${element.name}</h2>
         <p class="stock">${element.orderInfo.inStock} left in stock</p>
         <p class="price">Price: ${element.price}</p>
-        <a href="" class="cart-button">Add to cart</a>`;
-  let stats = document.createElement("div");
-  stats.setAttribute("class", "stats");
-  stats.innerHTML = `<i class="icon-like_empty"></i>
-        <div class="review-text">
-            <p class="reviews"><span>${element.orderInfo.reviews}%</span> Positive reviews</p>
-            <p class="reviews">Above average</p></div>
-            <div class="orders"><p class="reviews">0</p>
-                <p class="reviews">orders</p>
-            </div>`;
+        <a href="" class="cart-button">Add to cart</a>
+        <div class = "stats">
+        <i class="icon-like_empty"></i>
+          <div class="review-text">
+              <p class="reviews"><span>${element.orderInfo.reviews}%</span> Positive reviews</p>
+              <p class="reviews">Above average</p></div>
+              <div class="orders"><p class="reviews">0</p>
+                  <p class="reviews">orders</p>
+              </div>
+        </div>`;
   document.getElementsByClassName("card-container")[0].appendChild(card);
-  document.getElementById(`${element.id}`).appendChild(stats);
+
 });
 // banner
 let i = 0;
@@ -166,6 +166,7 @@ document.addEventListener("click", evt => {
 let colorFilter = [];
 let memoryFilter = [];
 let osFilter = [];
+let displayFilter = [];
 
 //color filter
 let checkboxArrColor = Array.from(document.getElementsByClassName("color-filter"));
@@ -180,29 +181,8 @@ checkboxArrColor.forEach(checkbox => {
     }else{
       colorFilter.splice(colorFilter.indexOf(formatedColor),1);
     }
-
-      if (!colorFilter.length) {
-        return;
-      }else{
-        cards.forEach(card => {
-          let cardFromArray = items.find(element => element.id == card.id);
-          if (colorFilter.find(element => cardFromArray.color.includes(element))) {
-            document.getElementById(card.id).style.display = "";
-          }else{
-            document.getElementById(card.id).style.display = "none";
-          }
-        });
- 
-      }
-    
-      }
-    
-    )
-  
-  
-      }
-    
-    );
+  });
+});
 
 //memory filter
 let checkboxArrMemory = Array.from(document.getElementsByClassName("memory-filter"));
@@ -215,22 +195,8 @@ checkboxArrMemory.forEach(checkbox => {
     if (checkbox.checked === true){
       memoryFilter.push(formatedStorage);
     }else{
-      colorFilter.splice(memoryFilter.indexOf(formatedStorage),1);
+      memoryFilter.splice(memoryFilter.indexOf(formatedStorage),1);
     }
-      if (!memoryFilter.length) {
-        return;
-      }else{
-        cards.forEach(card => {
-          let cardFromArray = items.find(element => element.id == card.id);
-          if (memoryFilter.find(element => cardFromArray.storage == element)) {
-            document.getElementById(card.id).style.display = "";
-          }else{
-            document.getElementById(card.id).style.display = "none";
-          }
-        });
-        
-  
-      }
 
 });
 });
@@ -242,31 +208,105 @@ let checkboxArrOS = Array.from(document.getElementsByClassName("os-filter"));
 checkboxArrOS.forEach(checkbox => {
   checkbox.addEventListener("click", event =>{
     let os = checkbox.id.split("-").join(" ");
-    console.log(os);
     if (checkbox.checked === true){
       osFilter.push(os);
     }else{
       osFilter.splice(osFilter.indexOf(os),1);
     }
-      if (!osFilter.length) {
-        return;
-      }else{
-        cards.forEach(card => {
-          let cardFromArray = items.find(element => element.id == card.id);
-          if (osFilter.find(element => cardFromArray.os == element)) {
-            document.getElementById(card.id).style.display = "";
-          }else{
-            document.getElementById(card.id).style.display = "none";
-          }
-        });
-        
-  
-      }
-      if (!osFilter.length) {
-        cards.forEach(card =>{
-          document.getElementById(card.id).style.display = "";
-        })
-      }
+
 });
 });
 
+//display  filter
+
+let checkboxArrDisplay = Array.from(document.getElementsByClassName("display-filter"));
+
+checkboxArrDisplay.forEach(checkbox => {
+  checkbox.addEventListener("click", event=>{
+    let displayParams = checkbox.id;
+
+    if (checkbox.checked === true){
+      displayFilter.push(displayParams);
+    }else{
+      displayFilter.splice(displayFilter.indexOf(os),1);
+    }
+  })
+})
+
+
+
+
+let checkboxArr = Array.from(document.querySelectorAll("input[type='checkbox']"));
+checkboxArr.forEach(checkbox =>{
+  checkbox.addEventListener("click", event=> {
+
+    cards.forEach(card=>{
+      document.getElementById(card.id).classList.remove("hiddenFilter");
+    })
+    let allFiltersArr = [colorFilter, memoryFilter, osFilter, displayFilter];
+    console.log(allFiltersArr)
+  if (allFiltersArr.filter(el => el.length === 0).length === allFiltersArr.length){
+    cards.forEach(el => {
+      document.getElementById(el.id).style.display = "";
+    })
+  }else{
+    allFiltersArr.forEach(arr => {
+      if (!arr.length) {
+        console.log("array empty")
+      }else{
+        cards.forEach(card => {
+          let cardFromArray = items.find(element => element.id == card.id);
+          let filterParam = "";
+          switch (allFiltersArr.indexOf(arr)) {
+            case 0:
+              filterParam = "color";
+              if (arr.find(element => cardFromArray[filterParam].includes(element))
+              && !card.classList.contains("hiddenFilter")) {
+                document.getElementById(card.id).style.display = "";
+              }else{
+            
+                document.getElementById(card.id).style.display = "none";
+                document.getElementById(card.id).classList.add("hiddenFilter");
+              }
+              break;
+            case 1:
+              filterParam = "storage";
+              if ((arr.find(element => cardFromArray[filterParam] == element)
+              && !card.classList.contains("hiddenFilter"))) {
+                document.getElementById(card.id).style.display = "";
+              }else{
+                document.getElementById(card.id).style.display = "none";
+                document.getElementById(card.id).classList.add("hiddenFilter");
+              }
+                break;
+            case 2:
+              filterParam = "os";
+              if ((arr.find(element => cardFromArray[filterParam] == element)
+            && !card.classList.contains("hiddenFilter"))) {
+              document.getElementById(card.id).style.display = "";
+            }else{
+              document.getElementById(card.id).style.display = "none";
+              document.getElementById(card.id).classList.add("hiddenFilter");
+            }
+              break;
+            case 3:
+              filterParam = "display";
+              if (arr.find(element => (cardFromArray[filterParam] < element.split("-")[1] && cardFromArray[filterParam] > element.split("-")[0]))
+              && !card.classList.contains("hiddenFilter")) {
+                document.getElementById(card.id).style.display = "";
+              }else{
+                document.getElementById(card.id).style.display = "none";
+                document.getElementById(card.id).classList.add("hiddenFilter");
+              }
+              break;
+          }
+          
+            
+          });
+
+    }
+  });
+  
+  }
+  
+})});
