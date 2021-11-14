@@ -342,3 +342,18 @@ checkboxArr.forEach(checkbox =>{
   }
   
 })});
+
+//search
+
+let searchBar = document.getElementById("search-bar");
+searchBar.addEventListener("keyup", event=>{
+  cards.forEach(card=> {
+    let cardFromArray = items.find(element => element.id == card.id);
+    if (cardFromArray.name.toLowerCase().indexOf(searchBar.value.toLowerCase())!=-1) {
+      document.getElementById(card.id).style.display = "";
+    }else{
+      document.getElementById(card.id).style.display = "none";
+    }
+  })
+})
+
