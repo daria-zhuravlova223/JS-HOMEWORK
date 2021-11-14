@@ -167,6 +167,7 @@ let colorFilter = [];
 let memoryFilter = [];
 let osFilter = [];
 let displayFilter = [];
+let priceFilter = [];
 
 //color filter
 let checkboxArrColor = Array.from(document.getElementsByClassName("color-filter"));
@@ -233,17 +234,40 @@ checkboxArrDisplay.forEach(checkbox => {
   })
 })
 
+//price filter
+let priceFrom = document.getElementById("from");
+let priceTo = document.getElementById("to");
+
+
+priceFrom.addEventListener("keyup", event=>{
+    let priceLower = priceFrom.value;
+    priceFilter[0] = priceLower;
+    console.log(priceLower)
 
 
 
-let checkboxArr = Array.from(document.querySelectorAll("input[type='checkbox']"));
+})
+
+priceTo.addEventListener("keyup", event=>{
+  let priceHigher = priceTo.value;
+  priceFilter[1] = priceHigher;
+  console.log(priceHigher)
+
+})
+
+
+
+
+
+
+let checkboxArr = Array.from(document.querySelectorAll("input"));
 checkboxArr.forEach(checkbox =>{
   checkbox.addEventListener("click", event=> {
 
     cards.forEach(card=>{
       document.getElementById(card.id).classList.remove("hiddenFilter");
     })
-    let allFiltersArr = [colorFilter, memoryFilter, osFilter, displayFilter];
+    let allFiltersArr = [colorFilter, memoryFilter, osFilter, displayFilter, priceFilter];
     console.log(allFiltersArr)
   if (allFiltersArr.filter(el => el.length === 0).length === allFiltersArr.length){
     cards.forEach(el => {
@@ -297,6 +321,14 @@ checkboxArr.forEach(checkbox =>{
               }else{
                 document.getElementById(card.id).style.display = "none";
                 document.getElementById(card.id).classList.add("hiddenFilter");
+              }
+              break;
+            case 4:
+              if (cardFromArray.price < arr[1] && !card.classList.contains("hiddenFilter") && cardFromArray.price > arr[0]) {
+                document.getElementById(card.id).style.display = "";
+              }else{
+                document.getElementById(card.id).style.display = "none";
+                card.classList.add("hiddenFilter");
               }
               break;
           }
