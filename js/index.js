@@ -30,19 +30,26 @@ let bannerArr = [
 ];
 // create product cards
 items.forEach((element) => {
+  let reviewText = "";
+  if (element.orderInfo.reviews < 50) {
+    reviewText = "Below average";
+  } else{
+    reviewText = "Above average";
+  }
   let card = document.createElement("div");
   card.setAttribute("class", "product-card");
   card.setAttribute("id", `${element.id}`)
-  card.innerHTML = `<img src="img/${element.imgUrl}" alt="product image">
+  card.innerHTML = `<i class="icon-like_empty"></i>
+        <img src="img/${element.imgUrl}" alt="product image">
         <h2 class="product-title">${element.name}</h2>
         <p class="stock">${element.orderInfo.inStock} left in stock</p>
         <p class="price">Price: ${element.price}</p>
         <a href="" class="cart-button">Add to cart</a>
         <div class = "stats">
-        <i class="icon-like_empty"></i>
+        <i class="icon-like_filled"></i>
           <div class="review-text">
               <p class="reviews"><span>${element.orderInfo.reviews}%</span> Positive reviews</p>
-              <p class="reviews">Above average</p></div>
+              <p class="reviews">${reviewText}</p></div>
               <div class="orders"><p class="reviews">0</p>
                   <p class="reviews">orders</p>
               </div>
@@ -83,24 +90,20 @@ let filters = Array.from(document.getElementsByClassName("filter"));
 let filterButtons = Array.from(document.getElementsByClassName("icon-arrow_left"));
 
 //filter open
-filterButtons.forEach((filterButton) => {
+filters.forEach((filter) => {
     let filterOpen = false;
-    let openFilterPanel = document.createElement('div');
-    openFilterPanel.setAttribute("id", "open-filter")
-    let currentPanel = filters[filterButtons.indexOf(filterButton)];
-    
-    filterButton.addEventListener("click", (event) => {
-      let currentPanelOpen = currentPanel.id + 'Content';
+    filter.addEventListener("click", (event) => {
+      let currentPanelOpen = filter.id + 'Content';
     if (filterOpen === true) {
-          currentPanel.style.backgroundColor = "#edf3ff";
+          filter.style.backgroundColor = "#edf3ff";
           document.getElementById(currentPanelOpen).classList.toggle("hidden");
-          if (currentPanel.id === "display") {
+          if (filter.id === "display") {
             document.getElementById("display").style.borderBottom = "none";
           }
         filterOpen = !filterOpen;
     } else {
-      currentPanel.style.backgroundColor = "white";
-      if (currentPanel.id === "display") {
+      filter.style.backgroundColor = "white";
+      if (filter.id === "display") {
         document.getElementById("display").style.borderBottom = "1px #dddada solid";
       }
       document.getElementById(currentPanelOpen).classList.toggle("hidden")
@@ -127,7 +130,7 @@ cards.forEach(card=>{card.addEventListener("click", evt => {
     <div class="mid-col">
         <h1 class="product-title">${cardFromArray.name}</h1>
         <div class="stats">
-            <i class="icon-like_empty"></i>
+            <i class="icon-like_filled"></i>
             <div class="review-text">
                 <p class="reviews"><span>${cardFromArray.orderInfo.reviews}% </span> Positive reviews</p>
                 <p class="reviews">Above average</p></div>
@@ -154,7 +157,8 @@ cards.forEach(card=>{card.addEventListener("click", evt => {
 </div>`;
 document.getElementsByClassName("wrapper")[0].appendChild(modal);
 });
-})
+});
+
 //close modal
 document.addEventListener("click", evt => {
     if (evt.target.id === "modal") {
@@ -238,27 +242,17 @@ checkboxArrDisplay.forEach(checkbox => {
 let priceFrom = document.getElementById("from");
 let priceTo = document.getElementById("to");
 
-
 priceFrom.addEventListener("keyup", event=>{
     let priceLower = priceFrom.value;
     priceFilter[0] = priceLower;
-    console.log(priceLower)
-
-
-
-})
+    console.log(priceLower);
+});
 
 priceTo.addEventListener("keyup", event=>{
   let priceHigher = priceTo.value;
   priceFilter[1] = priceHigher;
-  console.log(priceHigher)
-
-})
-
-
-
-
-
+  console.log(priceHigher);
+});
 
 let checkboxArr = Array.from(document.querySelectorAll("input"));
 checkboxArr.forEach(checkbox =>{
@@ -280,11 +274,9 @@ checkboxArr.forEach(checkbox =>{
       }else{
         cards.forEach(card => {
           let cardFromArray = items.find(element => element.id == card.id);
-          let filterParam = "";
           switch (allFiltersArr.indexOf(arr)) {
             case 0:
-              filterParam = "color";
-              if (arr.find(element => cardFromArray[filterParam].includes(element))
+              if (arr.find(element => cardFromArray.color.includes(element))
               && !card.classList.contains("hiddenFilter")) {
                 document.getElementById(card.id).style.display = "";
               }else{
@@ -294,8 +286,7 @@ checkboxArr.forEach(checkbox =>{
               }
               break;
             case 1:
-              filterParam = "storage";
-              if ((arr.find(element => cardFromArray[filterParam] == element)
+              if ((arr.find(element => cardFromArray.storage == element)
               && !card.classList.contains("hiddenFilter"))) {
                 document.getElementById(card.id).style.display = "";
               }else{
@@ -304,8 +295,7 @@ checkboxArr.forEach(checkbox =>{
               }
                 break;
             case 2:
-              filterParam = "os";
-              if ((arr.find(element => cardFromArray[filterParam] == element)
+              if ((arr.find(element => cardFromArray.os == element)
             && !card.classList.contains("hiddenFilter"))) {
               document.getElementById(card.id).style.display = "";
             }else{
@@ -314,8 +304,7 @@ checkboxArr.forEach(checkbox =>{
             }
               break;
             case 3:
-              filterParam = "display";
-              if (arr.find(element => (cardFromArray[filterParam] < element.split("-")[1] && cardFromArray[filterParam] > element.split("-")[0]))
+              if (arr.find(element => (cardFromArray.display < element.split("-")[1] && cardFromArray.display > element.split("-")[0]))
               && !card.classList.contains("hiddenFilter")) {
                 document.getElementById(card.id).style.display = "";
               }else{
@@ -324,7 +313,9 @@ checkboxArr.forEach(checkbox =>{
               }
               break;
             case 4:
-              if (cardFromArray.price < arr[1] && !card.classList.contains("hiddenFilter") && cardFromArray.price > arr[0]) {
+              if ((cardFromArray.price < arr[1] && !card.classList.contains("hiddenFilter") && cardFromArray.price > arr[0])
+              || (cardFromArray.price < arr[1] && !card.classList.contains("hiddenFilter") && !arr[0]) ||
+              (!arr[1] && !card.classList.contains("hiddenFilter") && cardFromArray.price > arr[0])) {
                 document.getElementById(card.id).style.display = "";
               }else{
                 document.getElementById(card.id).style.display = "none";
@@ -341,7 +332,8 @@ checkboxArr.forEach(checkbox =>{
   
   }
   
-})});
+});
+});
 
 //search
 
@@ -354,6 +346,6 @@ searchBar.addEventListener("keyup", event=>{
     }else{
       document.getElementById(card.id).style.display = "none";
     }
-  })
-})
+  });
+});
 

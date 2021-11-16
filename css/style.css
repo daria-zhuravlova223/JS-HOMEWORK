@@ -42,9 +42,12 @@
 }
 .icon-like_empty:before {
   content: "\e905";
+  font-size: 24px;
 }
 .icon-like_filled:before {
   content: "\e906";
+  color: #F05454;
+  font-size: 20px;
 }
 .icon-search:before {
   content: "\e907";
@@ -191,7 +194,7 @@ i.icon-settings {
 }
 
 .product-card {
-  width: 28%;
+  width: 300px;
   min-height: 480px;
   border: #e0e0e0 1px solid;
   border-radius: 5px;
@@ -200,6 +203,8 @@ i.icon-settings {
   flex-direction: column;
   margin-bottom: 30px;
   margin: 0 20px 50px;
+  justify-self: flex-start;
+  position: relative;
 
 }
 
@@ -301,7 +306,7 @@ input[type="text"]{
 
 #open-filter div{
   display: flex;
-  
+  width: 322px;  
 }
 
 .d-flex div p{
@@ -312,22 +317,23 @@ input[type="text"]{
   display: flex;
   flex-direction: column;
   width: 50%;
-  padding: 24px 90px 28px 15px;
+  padding: 24px 28px 15px;
 }
 
 
 #priceContent p{
-  width: 50px;
+  width: 30px;
+  padding-right: 0px;
 }
 
 .d-flex{
   display: flex;
-  padding-left: 30px;
+  /* padding-left: 30px; */
 }
 
 #priceContent input[type="text"]{
-  width: 120px;
-  margin-left: 30px;
+  width: 100px;
+  /* margin-left: 30px; */
   margin-top: 15px;
 }
 
@@ -413,6 +419,11 @@ input[type="text"]{
   margin-top: 0;
 }
 
+.icon-like_empty{
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
 
 
 .icon-arrow_left{
@@ -423,7 +434,7 @@ input[type="text"]{
   display: none;
 }
 
-@media (max-width: 1500px) {
+@media (max-width: 1700px) {
   .product-card {
     width: 40%
   

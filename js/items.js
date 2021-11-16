@@ -452,7 +452,7 @@ const items = [
         InTheBox: ['iPad', 'USB-C Power Adapter', 'Lightning to USB-C Cable'],
         orderInfo: {
         	inStock: 90, // кол-во едениц товара в наличии
-        	reviews: 0, // процент положительных отзывов
+        	reviews: 40, // процент положительных отзывов
         }
     },
     {
