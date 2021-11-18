@@ -28,6 +28,7 @@ let bannerArr = [
     color: "white",
   },
 ];
+
 // create product cards
 items.forEach((element) => {
   let reviewText = "";
@@ -57,6 +58,7 @@ items.forEach((element) => {
   document.getElementsByClassName("card-container")[0].appendChild(card);
 
 });
+
 // banner
 let i = 0;
 setInterval(() => {
@@ -247,14 +249,12 @@ priceFrom.addEventListener("blur", evt=>{
   let priceLower = priceFrom.value;
   if (priceLower < minPrice){
     priceFrom.value = minPrice;
-}
+}});
 priceTo.addEventListener("blur", evt=>{
   let priceHigher = priceTo.value;
   if (priceHigher > maxPrice){
     priceTo.value = maxPrice;
-}
-
-
+}});
 
 priceFrom.addEventListener("keyup", event=>{
   let priceLower = priceFrom.value;
@@ -278,86 +278,15 @@ priceTo.addEventListener("keyup", event=>{
   console.log(priceHigher);
 });
 
-let checkboxArr = Array.from(document.querySelectorAll("input"));
+// filter event listeners
+
+let checkboxArr = Array.from(document.querySelectorAll("input[type = 'checkbox']"));
 checkboxArr.forEach(checkbox =>{
-  checkbox.addEventListener("click", event=> {
-
-    cards.forEach(card=>{
-      document.getElementById(card.id).classList.remove("hiddenFilter");
-    })
-    let allFiltersArr = [colorFilter, memoryFilter, osFilter, displayFilter, priceFilter];
-    console.log(allFiltersArr)
-  if (allFiltersArr.filter(el => el.length === 0).length === allFiltersArr.length){
-    cards.forEach(el => {
-      document.getElementById(el.id).style.display = "";
-    })
-  }else{
-    allFiltersArr.forEach(arr => {
-      if (!arr.length) {
-        console.log("array empty")
-      }else{
-        cards.forEach(card => {
-          let cardFromArray = items.find(element => element.id == card.id);
-          switch (allFiltersArr.indexOf(arr)) {
-            case 0:
-              if (arr.find(element => cardFromArray.color.includes(element))
-              && !card.classList.contains("hiddenFilter")) {
-                document.getElementById(card.id).style.display = "";
-              }else{
-            
-                document.getElementById(card.id).style.display = "none";
-                document.getElementById(card.id).classList.add("hiddenFilter");
-              }
-              break;
-            case 1:
-              if ((arr.find(element => cardFromArray.storage == element)
-              && !card.classList.contains("hiddenFilter"))) {
-                document.getElementById(card.id).style.display = "";
-              }else{
-                document.getElementById(card.id).style.display = "none";
-                document.getElementById(card.id).classList.add("hiddenFilter");
-              }
-                break;
-            case 2:
-              if ((arr.find(element => cardFromArray.os == element)
-            && !card.classList.contains("hiddenFilter"))) {
-              document.getElementById(card.id).style.display = "";
-            }else{
-              document.getElementById(card.id).style.display = "none";
-              document.getElementById(card.id).classList.add("hiddenFilter");
-            }
-              break;
-            case 3:
-              if (arr.find(element => (cardFromArray.display < element.split("-")[1] && cardFromArray.display > element.split("-")[0]))
-              && !card.classList.contains("hiddenFilter")) {
-                document.getElementById(card.id).style.display = "";
-              }else{
-                document.getElementById(card.id).style.display = "none";
-                document.getElementById(card.id).classList.add("hiddenFilter");
-              }
-              break;
-            case 4:
-              if ((cardFromArray.price < arr[1] && !card.classList.contains("hiddenFilter") && cardFromArray.price > arr[0])
-              || (cardFromArray.price < arr[1] && !card.classList.contains("hiddenFilter") && !arr[0]) ||
-              (!arr[1] && !card.classList.contains("hiddenFilter") && cardFromArray.price > arr[0])) {
-                document.getElementById(card.id).style.display = "";
-              }else{
-                document.getElementById(card.id).style.display = "none";
-                card.classList.add("hiddenFilter");
-              }
-              break;
-          }
-          
-            
-          });
-
-    }
-  });
-  
-  }
-  
+  checkbox.addEventListener("click", filterFunction());  
 });
-});
+
+priceFrom.addEventListener("blur", filterFunction());
+priceTo.addEventListener("blur", filterFunction());
 
 //search
 
@@ -372,8 +301,7 @@ searchBar.addEventListener("keyup", event=>{
     }
   });
 });
-});
-});
+
 
 
 //open cart
@@ -382,3 +310,76 @@ let cartButton = document.getElementsByClassName("icon-cart")[0];
 cartButton.addEventListener("click", evt=>{
   document.getElementsByClassName("cart")[0].classList.toggle("hidden");
 })
+
+
+function filterFunction() {
+  cards.forEach(card=>{
+    document.getElementById(card.id).classList.remove("hiddenFilter");
+  })
+  let allFiltersArr = [colorFilter, memoryFilter, osFilter, displayFilter, priceFilter];
+  console.log(allFiltersArr)
+if (allFiltersArr.filter(el => el.length === 0).length === allFiltersArr.length){
+  cards.forEach(el => {
+    document.getElementById(el.id).style.display = "";
+  })
+}else{
+  allFiltersArr.forEach(arr => {
+    if (!arr.length) {
+      console.log("array empty")
+    }else{
+      cards.forEach(card => {
+        let cardFromArray = items.find(element => element.id == card.id);
+        switch (allFiltersArr.indexOf(arr)) {
+          case 0:
+            if (arr.find(element => cardFromArray.color.includes(element))
+            && !card.classList.contains("hiddenFilter")) {
+              document.getElementById(card.id).style.display = "";
+            }else{
+          
+              document.getElementById(card.id).style.display = "none";
+              document.getElementById(card.id).classList.add("hiddenFilter");
+            }
+            break;
+          case 1:
+            if ((arr.find(element => cardFromArray.storage == element)
+            && !card.classList.contains("hiddenFilter"))) {
+              document.getElementById(card.id).style.display = "";
+            }else{
+              document.getElementById(card.id).style.display = "none";
+              document.getElementById(card.id).classList.add("hiddenFilter");
+            }
+              break;
+          case 2:
+            if ((arr.find(element => cardFromArray.os == element)
+          && !card.classList.contains("hiddenFilter"))) {
+            document.getElementById(card.id).style.display = "";
+          }else{
+            document.getElementById(card.id).style.display = "none";
+            document.getElementById(card.id).classList.add("hiddenFilter");
+          }
+            break;
+          case 3:
+            if (arr.find(element => (cardFromArray.display < element.split("-")[1] && cardFromArray.display > element.split("-")[0]))
+            && !card.classList.contains("hiddenFilter")) {
+              document.getElementById(card.id).style.display = "";
+            }else{
+              document.getElementById(card.id).style.display = "none";
+              document.getElementById(card.id).classList.add("hiddenFilter");
+            }
+            break;
+          case 4:
+            if ((cardFromArray.price < arr[1] && !card.classList.contains("hiddenFilter") && cardFromArray.price > arr[0])
+            || (cardFromArray.price < arr[1] && !card.classList.contains("hiddenFilter") && !arr[0]) ||
+            (!arr[1] && !card.classList.contains("hiddenFilter") && cardFromArray.price > arr[0])) {
+              document.getElementById(card.id).style.display = "";
+            }else{
+              document.getElementById(card.id).style.display = "none";
+              card.classList.add("hiddenFilter");
+            }
+            break;
+        }
+
+        });
+}
+});
+}}
