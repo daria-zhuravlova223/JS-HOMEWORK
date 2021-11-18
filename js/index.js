@@ -241,16 +241,40 @@ checkboxArrDisplay.forEach(checkbox => {
 //price filter
 let priceFrom = document.getElementById("from");
 let priceTo = document.getElementById("to");
+let minPrice = Math.min(...items.map(el=>+el.price));
+let maxPrice = Math.max(...items.map(el=>el.price));
+priceFrom.addEventListener("blur", evt=>{
+  let priceLower = priceFrom.value;
+  if (priceLower < minPrice){
+    priceFrom.value = minPrice;
+}
+priceTo.addEventListener("blur", evt=>{
+  let priceHigher = priceTo.value;
+  if (priceHigher > maxPrice){
+    priceTo.value = maxPrice;
+}
+
+
 
 priceFrom.addEventListener("keyup", event=>{
-    let priceLower = priceFrom.value;
-    priceFilter[0] = priceLower;
+  let priceLower = priceFrom.value;
+    if (priceLower < minPrice){
+      priceFilter[0] = minPrice;
+ 
+    }else{
+      priceFilter[0] = priceLower;
+    }
     console.log(priceLower);
 });
 
 priceTo.addEventListener("keyup", event=>{
   let priceHigher = priceTo.value;
-  priceFilter[1] = priceHigher;
+  if (priceHigher > maxPrice){
+    priceFilter[1] = maxPrice;
+
+  }else{
+    priceFilter[1] = priceHigher;
+  }
   console.log(priceHigher);
 });
 
@@ -348,4 +372,13 @@ searchBar.addEventListener("keyup", event=>{
     }
   });
 });
+});
+});
 
+
+//open cart
+
+let cartButton = document.getElementsByClassName("icon-cart")[0];
+cartButton.addEventListener("click", evt=>{
+  document.getElementsByClassName("cart")[0].classList.toggle("hidden");
+})
