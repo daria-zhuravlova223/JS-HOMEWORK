@@ -68,7 +68,7 @@ html {
 }
 
 .header{
-  margin-top: 10px;
+  margin-top: 20px;
   margin-bottom: 10px;
 }
 
@@ -120,6 +120,7 @@ p.quantity{
 .cart-header{
   border-bottom: #C4C4C4 0.5px solid;
   text-align: center;
+  align-self: center;
 }
 
 
@@ -127,14 +128,23 @@ p.quantity{
   display: flex;
   align-items: center;
   justify-items: center;
+  width: 100%;
+
 }
 .product-cart-container{
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  flex-grow: 1;
 }
 .arrow-right{
   transform: rotate(180deg);
+}
+
+.cart{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .cart img{
@@ -149,6 +159,7 @@ p.quantity{
   padding: 3px 8px;
   border-radius: 3px;
   display: inline;
+  flex-grow: 1;
 }
 
 img.logo {
@@ -171,6 +182,7 @@ body {
   padding: 10px;
   border-radius: 50%;
   border: gray 1px solid;
+  position: relative;
 }
 
 .banner {
@@ -240,6 +252,29 @@ i.icon-settings {
 i.icon-settings {
   margin-left: 13px;
   background-color: #102243;
+}
+
+
+.cart-items-num{
+  position: absolute;
+  right: 25px;
+  bottom: -10px;
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  background-color: #0E49B5;
+  color: white;
+  text-align: center;
+  padding-top: 5px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.cart-total{
+  background-color: #EAF6FF ;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  margin: 10px 0px;
 }
 
 .side-panel {
@@ -321,12 +356,25 @@ i.icon-settings {
     margin-top: auto;
     white-space: nowrap;
     border: 1px solid #0E49B5;
+    z-index: 999;
 }
 
 .cart-button:hover{
   background-color: white;
   color: #0e49b5;
   border: #0e49b5 1px solid;
+}
+
+.disabled-button{
+  background-color: #767272;
+  border: none;
+}
+
+.disabled-button:hover{
+  background-color: #767272;
+  border: none;
+  color: white;
+  cursor: default;
 }
 
 .stats{
@@ -513,6 +561,35 @@ input[type="text"]{
 .hidden{
   display: none;
 }
+
+.open i{
+  transform: rotate(90deg);
+}
+
+.sort-window{
+  background-color: white;
+  position: absolute;
+  top: 690px;
+  right: 228px;
+  border-radius: 5px;
+  border: 1px #DAE2EA solid;
+  z-index: 999999;
+  padding: 0px 30px 15px 0px;
+}
+
+.sort-window p{
+  text-align: center;
+}
+
+.sort-window span{
+  line-height: 1.4rem;
+}
+.empty-icon{
+  opacity: 0;
+}
+
+
+
 
 @media (max-width: 1700px) {
   .product-card {

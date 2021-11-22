@@ -19,8 +19,10 @@
             <div class="header-container">
                 <img class="logo" src="img/logo.png" alt="MacOutlet logo">
                 <i class="icon-cart">
-
+                    <div class="cart-items-num hidden">0</div>
                 </i>
+                
+                
                 </div>
             </div>
             <div class="cart hidden">
@@ -28,18 +30,11 @@
                     <h2 class="cart-title">Shopping Cart</h2>
                     <p>Checkout is almost done!</p>
                 </div>
-                <div class="cart-product">
-                    <img src="img/items/airpods-max.jpg" alt="">
-                    <div class="product-cart-container">
-                        <b>Apple AirPods Pro</b>
-                        <p class="price-cart">$600</p>
-                    </div>
-                    <i class="icon-arrow_left arrow-right"></i>
-                    <p class="quantity">2</p>
-                    <i class="icon-arrow_left"></i>
-                    <i class="icon-close"></i>
-                    </div>
+                <div class="cart-total">
+                    <p>Total amount: <b id="total-items">0</b><b> ptc.</b></p>
+                    <p>Total price: <b id="total-price">0$</b></p>
                 </div>
+                <div class="cart-button">Buy</div>
             </div>
         </div>
         <main class="main">
@@ -53,6 +48,38 @@
                     <input type="text" name="search-bar" id="search-bar" placeholder="Enter device name">
                     <i class="icon-filter"></i>
                     <i class="icon-settings"></i>
+                    <div class="sort-window hidden">
+                        <p>Order</p>
+                                <i class="icon-arrow_left empty-icon"></i>
+                                <span>Default</span>
+                                <br>
+                                <i class="icon-arrow_left arrow-up"></i>
+                                <span>Ascending</span>
+                                <br>
+                                <i class="icon-arrow_left arrow-down"></i>
+                                <span>Descending</span>
+
+                    </div>
+                    <div class="settings-window hidden">
+                        <div class="col">
+                            <p>Category</p>
+                            <select name="category" id="category">
+                                <option value="All">All categoreies</option>
+                                <option value="Mac">Mac</option>
+                                <option value="IPad">IPad</option>
+                                <option value="Watch">Watch</option>
+                                <option value="IPhone">IPhone</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <p>Stock</p>
+                            <select name="stock" id="stock">
+                                <option value="any">Any</option>
+                                <option value="inStock">In stock</option>
+                                <option value="notInStock">Not in stock</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div class="main-container">
                     <div class="side-panel">

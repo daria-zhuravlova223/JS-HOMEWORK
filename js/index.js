@@ -32,10 +32,14 @@ let bannerArr = [
 // create product cards
 items.forEach((element) => {
   let reviewText = "";
+  let buttonState = "";
   if (element.orderInfo.reviews < 50) {
     reviewText = "Below average";
   } else{
     reviewText = "Above average";
+  }
+  if (element.orderInfo.inStock === 0) {
+    buttonState = "disabled-button";
   }
   let card = document.createElement("div");
   card.setAttribute("class", "product-card");
@@ -44,8 +48,8 @@ items.forEach((element) => {
         <img src="img/${element.imgUrl}" alt="product image">
         <h2 class="product-title">${element.name}</h2>
         <p class="stock">${element.orderInfo.inStock} left in stock</p>
-        <p class="price">Price: ${element.price}</p>
-        <a href="" class="cart-button">Add to cart</a>
+        <p class="price">Price: $${element.price}</p>
+        <p class="cart-button ${buttonState}">Add to cart</p>
         <div class = "stats">
         <i class="icon-like_filled"></i>
           <div class="review-text">
@@ -97,6 +101,7 @@ filters.forEach((filter) => {
     filter.addEventListener("click", (event) => {
       let currentPanelOpen = filter.id + 'Content';
     if (filterOpen === true) {
+          filter.classList.toggle("open");
           filter.style.backgroundColor = "#edf3ff";
           document.getElementById(currentPanelOpen).classList.toggle("hidden");
           if (filter.id === "display") {
@@ -105,13 +110,13 @@ filters.forEach((filter) => {
         filterOpen = !filterOpen;
     } else {
       filter.style.backgroundColor = "white";
+      filter.classList.toggle("open");
       if (filter.id === "display") {
         document.getElementById("display").style.borderBottom = "1px #dddada solid";
       }
       document.getElementById(currentPanelOpen).classList.toggle("hidden")
       filterOpen = !filterOpen;
       }
-      
     }
   );
 });
@@ -150,14 +155,16 @@ cards.forEach(card=>{card.addEventListener("click", evt => {
             <p>Weight: <b>${cardFromArray.size.weight} kg</b></p>
         </div>
     </div>
-    <div class="side-col right-col">
+    <div class="side-col right-col" id=${cardFromArray.id}>
         <h1 class="price">$ ${cardFromArray.price}</h1>
         <p>Stock: <b>${cardFromArray.orderInfo.inStock}</b> pcs</p>
-        <a href="#" class="cart-button">Add to cart</a>
+        <p class="cart-button modal-button">Add to cart</p>
     </div>
     
 </div>`;
 document.getElementsByClassName("wrapper")[0].appendChild(modal);
+console.log(document.getElementsByClassName("modal-button")[0])
+document.getElementsByClassName("modal-button")[0].addEventListener("click", addToCart);
 });
 });
 
@@ -282,11 +289,11 @@ priceTo.addEventListener("keyup", event=>{
 
 let checkboxArr = Array.from(document.querySelectorAll("input[type = 'checkbox']"));
 checkboxArr.forEach(checkbox =>{
-  checkbox.addEventListener("click", filterFunction());  
+  checkbox.addEventListener("click", filterFunction);  
 });
 
-priceFrom.addEventListener("blur", filterFunction());
-priceTo.addEventListener("blur", filterFunction());
+priceFrom.addEventListener("blur", filterFunction);
+priceTo.addEventListener("keyup", filterFunction);
 
 //search
 
@@ -302,8 +309,6 @@ searchBar.addEventListener("keyup", event=>{
   });
 });
 
-
-
 //open cart
 
 let cartButton = document.getElementsByClassName("icon-cart")[0];
@@ -311,13 +316,155 @@ cartButton.addEventListener("click", evt=>{
   document.getElementsByClassName("cart")[0].classList.toggle("hidden");
 })
 
+//add to cart
 
-function filterFunction() {
+let addToCartButtons = Array.from(document.querySelectorAll(" .cart-button"));
+let productsInCart = [];
+
+let cartTotal = document.getElementsByClassName("cart-total")[0];
+let totalItems = document.getElementById("total-items");
+let totalPrice = document.getElementById("total-price");
+
+
+function addToCart(event) {
+  let cardFromArray = items.find(element => element.id == event.target.parentElement.id);
+  let currentIndex = productsInCart.indexOf(cardFromArray);
+  if (productsInCart.length === 0 || (productsInCart.map(el=>+el.id).indexOf(+event.target.parentElement.id) === -1)) {
+  let productInCart = document.createElement('div');
+  productInCart.setAttribute("class", "cart-product");
+  cardFromArray["quantity"] = 1;
+  productInCart.innerHTML = ` 
+  <img src="img/${cardFromArray.imgUrl}" alt="">
+  <div class="product-cart-container">
+      <b>${cardFromArray.name}</b>
+      <p class="price-cart">$${cardFromArray.price}</p>
+  </div>
+  <i class="icon-arrow_left arrow-right"></i>
+  <p class="quantity">${cardFromArray['quantity']}</p>
+  <i class="icon-arrow_left arrow-left"></i>
+  <i class="icon-close"></i>
+  </div>`
+  cartTotal.before(productInCart);
+  productsInCart.push(cardFromArray);
+  totalItems.innerText = +totalItems.innerText + 1;
+  }else{
+      cardFromArray["quantity"] += 1;
+      totalItems.innerText = +totalItems.innerText + 1;
+      document.getElementsByClassName("quantity")[currentIndex].innerText = cardFromArray["quantity"];
+  }
+    
+    //arrow buttons
+    
+    function changeNumberOfItems(event) {
+      let currentIndex = productsInCart.indexOf(cardFromArray);
+      if (event.target.classList.contains("arrow-left")) {
+        productsInCart[currentIndex].quantity +=1;
+        totalItems.innerText = +totalItems.innerText + 1;
+      }else{
+        productsInCart[currentIndex].quantity -=1;
+        totalItems.innerText = +totalItems.innerText - 1;
+      }
+      
+      document.getElementsByClassName("quantity")[currentIndex].innerText = cardFromArray["quantity"];
+      
+      totalPrice.innerText = productsInCart.map(el => el.price*el.quantity).reduce((a,b)=> a+b)+"$";
+
+      if (+totalItems.innerText>0) {
+        cartItemsNumber.innerText = totalItems.innerText;
+        cartItemsNumber.classList.remove("hidden");
+      }else{
+        cartItemsNumber.classList.add("hidden");
+      }
+    }
+
+    let arrowsRight = Array.from(document.getElementsByClassName("arrow-right"));
+    let arrowsLeft = Array.from(document.getElementsByClassName("arrow-left"));
+    arrowsRight.forEach(arrow =>{
+      if (!arrow.dataset.listener) {
+        arrow.setAttribute("data-listener", "true");
+      arrow.addEventListener("click", changeNumberOfItems)
+      }
+      
+    });
+    arrowsLeft.forEach(arrow =>{
+      if (!arrow.dataset.listener) {
+        arrow.setAttribute("data-listener", "true");
+        arrow.addEventListener("click", changeNumberOfItems);
+      }
+      
+    });
+
+    //delete buttons
+    function deleteFunction(event) {
+      let currentIndex = productsInCart.indexOf(cardFromArray);
+      let cartProduct = event.target.parentElement;
+      totalItems.innerText = (+totalItems.innerText) -(productsInCart[currentIndex].quantity);
+      totalPrice.innerText = (totalPrice.innerText.substr(0, totalPrice.innerText.length-1)) - (+productsInCart[currentIndex].price * (+productsInCart[currentIndex].quantity)) + "$";
+      productsInCart.splice(currentIndex, 1);
+      cartProduct.remove();
+      let cartItemsNumber = document.getElementsByClassName("cart-items-num")[0];
+    if (+totalItems.innerText>0) {
+      cartItemsNumber.innerText = totalItems.innerText;
+      cartItemsNumber.classList.remove("hidden");
+    }else{
+      cartItemsNumber.classList.add("hidden");
+    }
+    }
+
+    
+    let deleteButtons = Array.from(document.getElementsByClassName("icon-close"));
+
+    deleteButtons.forEach(button=>{
+        if (productsInCart.length == 1) {
+          button.addEventListener("click", deleteFunction);
+          button.setAttribute("data-listener", "true");
+        }else{
+          if (!button.dataset.listener) {
+            button.addEventListener("click", deleteFunction);
+            button.setAttribute("data-listener", "true");
+          }else{
+          }
+          
+        }
+    });
+    console.log("end")
+    totalPrice.innerText = productsInCart.map(el => el.price*el.quantity).reduce((a,b)=> a+b)+"$";
+    let cartItemsNumber = document.getElementsByClassName("cart-items-num")[0];
+    if (+totalItems.innerText>0) {
+      cartItemsNumber.innerText = totalItems.innerText;
+      cartItemsNumber.classList.remove("hidden");
+    }else{
+      cartItemsNumber.classList.add("hidden");
+    }
+
+  event.stopPropagation()
+}
+
+addToCartButtons.forEach(button =>{
+  button.addEventListener("click", addToCart);
+  
+});
+
+//sort
+
+let sortButton = document.getElementsByClassName("icon-filter")[0];
+
+sortButton.addEventListener("click", event=>{
+  document.getElementsByClassName("sort-window")[0].classList.toggle("hidden");
+})
+
+
+//settings
+let settingsButton = document.getElementsByClassName("icon-settings");
+
+
+//filter function
+function filterFunction(event) {
   cards.forEach(card=>{
     document.getElementById(card.id).classList.remove("hiddenFilter");
   })
   let allFiltersArr = [colorFilter, memoryFilter, osFilter, displayFilter, priceFilter];
-  console.log(allFiltersArr)
+  console.log(allFiltersArr);
 if (allFiltersArr.filter(el => el.length === 0).length === allFiltersArr.length){
   cards.forEach(el => {
     document.getElementById(el.id).style.display = "";
@@ -378,7 +525,6 @@ if (allFiltersArr.filter(el => el.length === 0).length === allFiltersArr.length)
             }
             break;
         }
-
         });
 }
 });
