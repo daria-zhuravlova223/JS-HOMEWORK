@@ -318,20 +318,138 @@ cartButton.addEventListener("click", evt=>{
 
 //add to cart
 
+//TODO local storage
+// Make a local storage array of sorts to keep my cart contents in it
+// When loading the page we need to check if this array in local storage is not empty we create divs or whatever
+// If it's empty just do what we usually do and if it's not we should generate stuff from local storage
+// Important point we should avoid duplicating stuff
+//Is it even a problem?? I'm not sure but it might be
+// What I feel like we should do is move productInCart
+let cartItemsNumber = document.getElementsByClassName("cart-items-num")[0];
+
 let addToCartButtons = Array.from(document.querySelectorAll(" .cart-button"));
+
 let productsInCart = [];
 
 let cartTotal = document.getElementsByClassName("cart-total")[0];
 let totalItems = document.getElementById("total-items");
 let totalPrice = document.getElementById("total-price");
 
+if (JSON.parse(localStorage.getItem("cartArray")).length !== 0) {
+  productsInCart = JSON.parse(localStorage.getItem("cartArray"));
+  productsInCart.forEach(element => {
+    let productInCart = document.createElement('div');
+    productInCart.setAttribute("class", "cart-product");
+    productInCart.setAttribute("data-id", element.id)
+    productInCart.innerHTML = ` 
+    <img src="img/${element.imgUrl}" alt="">
+    <div class="product-cart-container">
+      <b>${element.name}</b>
+      <p class="price-cart">$${element.price}</p>
+    </div>
+    <i class="icon-arrow_left arrow-right"></i>
+    <p class="quantity">${element['quantity']}</p>
+    <i class="icon-arrow_left arrow-left"></i>
+    <i class="icon-close"></i>
+    </div>`
+    cartTotal.before(productInCart);
+    totalItems.innerText = +totalItems.innerText + 1;
+    totalPrice.innerText = productsInCart.map(el => el.price*el.quantity).reduce((a,b)=> a+b)+"$";
+    
+    if (+totalItems.innerText>0) {
+      cartItemsNumber.innerText = totalItems.innerText;
+      cartItemsNumber.classList.remove("hidden");
+    }else{
+      cartItemsNumber.classList.add("hidden");
+    }
+  });
+  let deleteButtons = Array.from(document.getElementsByClassName("icon-close"));
+
+    deleteButtons.forEach(button=>{
+        if (productsInCart.length == 1) {
+          button.addEventListener("click", deleteFunction);
+          button.setAttribute("data-listener", "true");
+        }else{
+          if (!button.dataset.listener) {
+            button.addEventListener("click", deleteFunction);
+            button.setAttribute("data-listener", "true");
+          }
+          
+        }
+    });
+
+    let arrowsRight = Array.from(document.getElementsByClassName("arrow-right"));
+    let arrowsLeft = Array.from(document.getElementsByClassName("arrow-left"));
+    arrowsRight.forEach(arrow =>{
+      if (!arrow.dataset.listener) {
+        arrow.setAttribute("data-listener", "true");
+      arrow.addEventListener("click", changeNumberOfItems)
+      }
+      
+    });
+    arrowsLeft.forEach(arrow =>{
+      if (!arrow.dataset.listener) {
+        arrow.setAttribute("data-listener", "true");
+        arrow.addEventListener("click", changeNumberOfItems);
+      }
+      
+    });
+}else{
+  productsInCart = [];
+}
+
+function changeNumberOfItems(event) {
+  let currentIndex = productsInCart.indexOf(productsInCart.find(element=>element.id ==event.target.parentElement.dataset.id));
+
+  if (event.target.classList.contains("arrow-left")) {
+    let currentNumber = Number.parseInt(productsInCart[currentIndex].quantity);
+    productsInCart[currentIndex].quantity = currentNumber + 1;
+    totalItems.innerText = +totalItems.innerText + 1;
+  }else{
+    let currentNumber = Number.parseInt(productsInCart[currentIndex].quantity);
+    if (currentNumber) {
+      productsInCart[currentIndex].quantity = currentNumber - 1;
+    totalItems.innerText = +totalItems.innerText - 1;
+    }
+  }
+  
+  document.getElementsByClassName("quantity")[currentIndex].innerText = productsInCart[currentIndex]["quantity"];
+  
+  totalPrice.innerText = productsInCart.map(el => el.price*el.quantity).reduce((a,b)=> a+b)+"$";
+
+  if (+totalItems.innerText>0) {
+    cartItemsNumber.innerText = totalItems.innerText;
+    cartItemsNumber.classList.remove("hidden");
+  }else{
+    cartItemsNumber.classList.add("hidden");
+  }
+}
+
+function deleteFunction(event) {
+  let currentIndex = productsInCart.indexOf(productsInCart.find(element=>element.id ==event.target.parentElement.dataset.id));
+  let cartProduct = event.target.parentElement;
+  totalItems.innerText = (+totalItems.innerText) - (productsInCart[currentIndex].quantity);
+  totalPrice.innerText = (totalPrice.innerText.substr(0, totalPrice.innerText.length-1)) - (+productsInCart[currentIndex].price * (+productsInCart[currentIndex].quantity)) + "$";
+  productsInCart.splice(productsInCart.indexOf(productsInCart[currentIndex]), 1);
+  cartProduct.remove();
+  let cartItemsNumber = document.getElementsByClassName("cart-items-num")[0];
+if (+totalItems.innerText>0) {
+  cartItemsNumber.innerText = totalItems.innerText;
+  cartItemsNumber.classList.remove("hidden");
+}else{
+  cartItemsNumber.classList.add("hidden");
+}
+localStorage.setItem("cartArray", JSON.stringify(productsInCart));
+}
+
 
 function addToCart(event) {
   let cardFromArray = items.find(element => element.id == event.target.parentElement.id);
-  let currentIndex = productsInCart.indexOf(cardFromArray);
+  let currentIndex = productsInCart.indexOf(productsInCart.find(element=>element.id ==event.target.parentElement.id));
   if (productsInCart.length === 0 || (productsInCart.map(el=>+el.id).indexOf(+event.target.parentElement.id) === -1)) {
   let productInCart = document.createElement('div');
   productInCart.setAttribute("class", "cart-product");
+  productInCart.setAttributeNS("data-id", cardFromArray.id)
   cardFromArray["quantity"] = 1;
   productInCart.innerHTML = ` 
   <img src="img/${cardFromArray.imgUrl}" alt="">
@@ -346,6 +464,7 @@ function addToCart(event) {
   </div>`
   cartTotal.before(productInCart);
   productsInCart.push(cardFromArray);
+  localStorage.setItem("cartArray", JSON.stringify(productsInCart));
   totalItems.innerText = +totalItems.innerText + 1;
   }else{
       cardFromArray["quantity"] += 1;
@@ -355,27 +474,7 @@ function addToCart(event) {
     
     //arrow buttons
     
-    function changeNumberOfItems(event) {
-      let currentIndex = productsInCart.indexOf(cardFromArray);
-      if (event.target.classList.contains("arrow-left")) {
-        productsInCart[currentIndex].quantity +=1;
-        totalItems.innerText = +totalItems.innerText + 1;
-      }else{
-        productsInCart[currentIndex].quantity -=1;
-        totalItems.innerText = +totalItems.innerText - 1;
-      }
-      
-      document.getElementsByClassName("quantity")[currentIndex].innerText = cardFromArray["quantity"];
-      
-      totalPrice.innerText = productsInCart.map(el => el.price*el.quantity).reduce((a,b)=> a+b)+"$";
-
-      if (+totalItems.innerText>0) {
-        cartItemsNumber.innerText = totalItems.innerText;
-        cartItemsNumber.classList.remove("hidden");
-      }else{
-        cartItemsNumber.classList.add("hidden");
-      }
-    }
+   
 
     let arrowsRight = Array.from(document.getElementsByClassName("arrow-right"));
     let arrowsLeft = Array.from(document.getElementsByClassName("arrow-left"));
@@ -395,21 +494,8 @@ function addToCart(event) {
     });
 
     //delete buttons
-    function deleteFunction(event) {
-      let currentIndex = productsInCart.indexOf(cardFromArray);
-      let cartProduct = event.target.parentElement;
-      totalItems.innerText = (+totalItems.innerText) -(productsInCart[currentIndex].quantity);
-      totalPrice.innerText = (totalPrice.innerText.substr(0, totalPrice.innerText.length-1)) - (+productsInCart[currentIndex].price * (+productsInCart[currentIndex].quantity)) + "$";
-      productsInCart.splice(currentIndex, 1);
-      cartProduct.remove();
-      let cartItemsNumber = document.getElementsByClassName("cart-items-num")[0];
-    if (+totalItems.innerText>0) {
-      cartItemsNumber.innerText = totalItems.innerText;
-      cartItemsNumber.classList.remove("hidden");
-    }else{
-      cartItemsNumber.classList.add("hidden");
-    }
-    }
+
+    
 
     
     let deleteButtons = Array.from(document.getElementsByClassName("icon-close"));
@@ -427,7 +513,6 @@ function addToCart(event) {
           
         }
     });
-    console.log("end")
     totalPrice.innerText = productsInCart.map(el => el.price*el.quantity).reduce((a,b)=> a+b)+"$";
     let cartItemsNumber = document.getElementsByClassName("cart-items-num")[0];
     if (+totalItems.innerText>0) {
@@ -436,7 +521,7 @@ function addToCart(event) {
     }else{
       cartItemsNumber.classList.add("hidden");
     }
-
+    
   event.stopPropagation()
 }
 
