@@ -335,7 +335,7 @@ let cartTotal = document.getElementsByClassName("cart-total")[0];
 let totalItems = document.getElementById("total-items");
 let totalPrice = document.getElementById("total-price");
 
-if (JSON.parse(localStorage.getItem("cartArray")).length !== 0) {
+if (JSON.parse(localStorage.getItem("cartArray"))) {
   productsInCart = JSON.parse(localStorage.getItem("cartArray"));
   productsInCart.forEach(element => {
     let productInCart = document.createElement('div');
@@ -449,7 +449,7 @@ function addToCart(event) {
   if (productsInCart.length === 0 || (productsInCart.map(el=>+el.id).indexOf(+event.target.parentElement.id) === -1)) {
   let productInCart = document.createElement('div');
   productInCart.setAttribute("class", "cart-product");
-  productInCart.setAttributeNS("data-id", cardFromArray.id)
+  productInCart.setAttribute("data-id", cardFromArray.id)
   cardFromArray["quantity"] = 1;
   productInCart.innerHTML = ` 
   <img src="img/${cardFromArray.imgUrl}" alt="">
