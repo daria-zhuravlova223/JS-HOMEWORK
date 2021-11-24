@@ -318,13 +318,6 @@ cartButton.addEventListener("click", evt=>{
 
 //add to cart
 
-//TODO local storage
-// Make a local storage array of sorts to keep my cart contents in it
-// When loading the page we need to check if this array in local storage is not empty we create divs or whatever
-// If it's empty just do what we usually do and if it's not we should generate stuff from local storage
-// Important point we should avoid duplicating stuff
-//Is it even a problem?? I'm not sure but it might be
-// What I feel like we should do is move productInCart
 let cartItemsNumber = document.getElementsByClassName("cart-items-num")[0];
 
 let addToCartButtons = Array.from(document.querySelectorAll(" .cart-button"));
